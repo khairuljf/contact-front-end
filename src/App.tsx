@@ -9,8 +9,11 @@ import "./index.css";
 import EditContactForm from "./components/EditContact";
 import { useQuery } from "@apollo/client";
 import { GET_CONTACTS } from "./graphql/queries";
+import env from "react-dotenv";
 
 function App() {
+  console.log("env", env.JSON_SERVER_URL);
+
   const id = useId();
   const { loading, error, data } = useQuery(GET_CONTACTS);
   const [contacts, setContacts] = useState<contact[]>([]);
