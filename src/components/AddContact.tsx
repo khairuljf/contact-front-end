@@ -25,6 +25,8 @@ const AddContactForm = ({ setContacts }: SetContact) => {
       ...values,
     };
 
+    console.log(request);
+
     try {
       const response: { data: contact } = await api.post("/contacts", request);
 
@@ -36,7 +38,6 @@ const AddContactForm = ({ setContacts }: SetContact) => {
       // Handle errors from the API call
       console.error("Error while making the API call:", error);
     }
-
   };
 
   // Get failed message
