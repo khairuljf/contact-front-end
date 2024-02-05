@@ -25,10 +25,9 @@ export default function Contact({
         setContactId={setContactId}
         filterContact={filterContact}
       />
-      <ContactDetails
-        contactId={contactId}
-        deleteContact={deleteContact}
-      />
+      {contactId && (
+        <ContactDetails contactId={contactId} deleteContact={deleteContact} />
+      )}
     </>
   );
 }
