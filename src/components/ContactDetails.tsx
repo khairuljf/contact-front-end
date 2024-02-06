@@ -45,13 +45,10 @@ export default function ContactDetails({
     variables: { id: contactId },
   });
 
-  console.log("contact details", data);
-
   useEffect(() => {
     //if (contactId) getContactDetails(contactId as string);
     //
   }, [contactId]);
-
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;

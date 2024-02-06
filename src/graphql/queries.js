@@ -1,5 +1,6 @@
 import {gql} from '@apollo/client';
 
+//Get Queries 
 
 export const GET_CONTACTS = gql`
 
@@ -13,7 +14,6 @@ export const GET_CONTACTS = gql`
 `;
 
 
-
 export const GET_CONTACT_DETAILS = gql`
 
   query contact($id:ID!){
@@ -24,3 +24,28 @@ export const GET_CONTACT_DETAILS = gql`
     }
 }
 `;
+
+// Mutations or add, update, delete
+
+
+export const ADD_CONTACT = gql`
+  mutation addContact($name: String!, $email: String!) {
+    addContact(contact: { name: $name, email: $email }) {
+      name
+      email
+    }
+  }
+`;
+
+export const DELETE_CONTACT = gql`
+  mutation deleteContact($id: ID!) {
+    deleteContact(id: $id) {
+     id
+    }
+  }
+`;
+
+
+
+
+

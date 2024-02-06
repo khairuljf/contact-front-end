@@ -1,5 +1,5 @@
 import { useEffect, useId, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import api from "./api/contacts";
 import AddContactForm from "./components/AddContact";
@@ -7,8 +7,8 @@ import Contact from "./components/Contact";
 import { contact } from "./components/types";
 import "./index.css";
 import EditContactForm from "./components/EditContact";
-import { useQuery } from "@apollo/client";
-import { GET_CONTACTS } from "./graphql/queries";
+import { useMutation, useQuery } from "@apollo/client";
+import { DELETE_CONTACT, GET_CONTACTS } from "./graphql/queries";
 import env from "react-dotenv";
 
 function App() {
@@ -18,48 +18,33 @@ function App() {
   const [filter, setFilter] = useState("");
   const [contactId, setContactId] = useState<string>();
 
-  console.log("loading", loading);
-  console.log("data", data?.contacts);
-
   // Filter contact by name
 
   let filterContact = contacts?.filter((contact) => {
     return contact?.name.toLowerCase().indexOf(filter.toLowerCase()) >= 0;
   });
 
-  // Retrieve contacts
-  // const retriveContacts = async () => {
-  //   const response = await api.get("/contacts");
-  //   return response.data;
-  // };
-
-  // if (data) {
-  //   setContacts((prevState) => data?.contacts);
-  // }
-
   useEffect(() => {
-    /*
-    const getAllContact = async () => {
-      const allContact = await retriveContacts();
-
-      if (allContact) {
-        setContacts((prevState) => allContact);
-      }
-    };
-
-    getAllContact();
-*/
     setContacts((prevState) => data?.contacts);
   }, [data]);
 
+  const [deleteContactFromList, {}] = useMutation(DELETE_CONTACT);
+
   // Delete contact
   const deleteContact = async (id: string) => {
-    const newContact = contacts?.filter((contact) => contact?.id !== id);
     try {
-      const response: { data: contact } = await api.delete(`/contacts/${id}`);
-      console.log("res", response);
-      if (response.data) {
-        setContacts(newContact);
+      const result = await deleteContactFromList({
+        variables: {
+          id: id,
+        },
+      });
+
+      console.log(result);
+
+      if (result.data) {
+        filterContact = result.data;
+        console.log("allcontact", result.data);
+        setContactId("");
       }
     } catch (error) {
       // Handle errors from the API call

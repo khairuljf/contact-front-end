@@ -18,6 +18,8 @@ export default function Contact({
   filterContact,
   deleteContact,
 }: contactProps) {
+  console.log("contactId", contactId);
+
   return (
     <>
       <ContactList

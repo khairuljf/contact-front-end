@@ -5,35 +5,38 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import api from "../api/contacts";
 import { contact } from "./types";
+import { useMutation } from "@apollo/client";
+import { ADD_CONTACT } from "../graphql/queries";
 
 export type SetContact = {
   setContacts: React.Dispatch<React.SetStateAction<contact[]>>;
 };
 
 type FieldType = {
-  name?: string;
-  email?: string;
+  name: string;
+  email: string;
 };
 
 const AddContactForm = ({ setContacts }: SetContact) => {
   const navigate = useNavigate();
   const id = useId();
 
-  const addContactHandler = async (values: any) => {
-    const request = {
-      id: id,
-      ...values,
-    };
+  const [addContact, { data }] = useMutation(ADD_CONTACT);
 
-    console.log(request);
+  const addContactHandler = async (values: FieldType) => {
+    console.log("values", values);
 
     try {
-      const response: { data: contact } = await api.post("/contacts", request);
+      const result = await addContact({
+        variables: {
+          ...values,
+        },
+      });
 
-      if (response.data) {
-        setContacts((prevState) => [...prevState, response?.data]);
+      if (result.data) {
         navigate("/");
       }
+      console.log(result);
     } catch (error) {
       // Handle errors from the API call
       console.error("Error while making the API call:", error);
