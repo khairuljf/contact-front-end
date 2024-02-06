@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import api from "../api/contacts";
 import { contact } from "./types";
 import { useLocation } from "react-router-dom";
+import { useMutation } from "@apollo/client";
+import { UPDATE_CONTACT } from "../graphql/queries";
 
 export type SetContact = {
   setContacts: React.Dispatch<React.SetStateAction<contact[]>>;
@@ -33,21 +35,23 @@ export default function EditContactForm({
 
   console.log("newData", newData);
 
+  const [updateContact, { data }] = useMutation(UPDATE_CONTACT);
+
   const addContactHandler = async (values: any) => {
     try {
-      const response: { data: contact } = await api.put(
-        `/contacts/${newData?.id}`,
-        values
-      );
-      if (response.data) {
-        const updatedContacts = contacts?.map((contact) => {
-          return contact.id === response.data?.id ? response.data : contact;
-        });
+      const result = await updateContact({
+        variables: {
+          id: newData?.id,
+          edits: {
+            ...values,
+          },
+        },
+      });
 
-        setContacts(updatedContacts);
-
+      if (result.data) {
         navigate("/");
       }
+      console.log(result);
     } catch (error) {
       // Handle errors from the API call
       console.error("Error while making the API call:", error);

@@ -44,6 +44,7 @@ export default function ContactDetails({
   const { loading, error, data } = useQuery(GET_CONTACT_DETAILS, {
     variables: { id: contactId },
   });
+  
 
   useEffect(() => {
     //if (contactId) getContactDetails(contactId as string);

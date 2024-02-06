@@ -37,7 +37,6 @@ export default function ContactList({
                   type="primary"
                   icon={<FolderViewOutlined />}
                   onClick={(e) => {
-                    console.log(e.target);
                     setContactId((prevState) => contact?.id);
                   }}
                 />
