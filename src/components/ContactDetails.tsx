@@ -44,14 +44,20 @@ export default function ContactDetails({
   const { loading, error, data } = useQuery(GET_CONTACT_DETAILS, {
     variables: { id: contactId },
   });
-  
 
   useEffect(() => {
     //if (contactId) getContactDetails(contactId as string);
     //
   }, [contactId]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <div className="details-wrap">
+        <div className="loading-content">
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
   if (error) return <p>Error: {error.message}</p>;
 
   return (

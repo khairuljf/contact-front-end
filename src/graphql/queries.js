@@ -47,6 +47,8 @@ export const DELETE_CONTACT = gql`
   mutation deleteContact($id: ID!) {
     deleteContact(id: $id) {
       id
+      name
+      email
     }
   }
 `;

@@ -21,7 +21,7 @@ function App() {
   // Filter contact by name
 
   let filterContact = contacts?.filter((contact) => {
-    return contact?.name.toLowerCase().indexOf(filter.toLowerCase()) >= 0;
+    return contact?.name?.toLowerCase().indexOf(filter?.toLowerCase()) >= 0;
   });
 
   useEffect(() => {
@@ -39,11 +39,8 @@ function App() {
         },
       });
 
-      console.log(result);
-
       if (result.data) {
-        filterContact = result.data;
-        console.log("allcontact", result.data);
+        setContacts((prevState) => result.data.deleteContact);
         setContactId("");
       }
     } catch (error) {
