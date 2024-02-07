@@ -87,6 +87,11 @@ body{
   font-size: 20px;
 }
 
+.action-contact{
+  margin-top: 20px;
+  display: flex!important;
+  gap:20px
+}
 
 
 .App {
